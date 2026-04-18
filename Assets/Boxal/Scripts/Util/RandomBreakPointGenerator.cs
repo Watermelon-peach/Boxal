@@ -12,7 +12,7 @@ namespace Boxal.Util
     [SerializeField] private float edgePadding = 0.2f;
 
     [Header("Parent")]
-    [SerializeField] private Transform breakPointParent; // ⭐ 추가
+    [SerializeField] private Transform breakPointParent;
 
     [ContextMenu("Generate Break Points")]
     public void Generate()
@@ -39,7 +39,7 @@ namespace Boxal.Util
             Vector3 localPoint = GetRandomPointInside(bounds);
 
             GameObject p = new GameObject("BreakPoint_" + i);
-            p.transform.SetParent(breakPointParent); // ⭐ 핵심
+            p.transform.SetParent(breakPointParent);
 
             // 위치 적용
             p.transform.position = targetMeshFilter.transform.TransformPoint(localPoint);
