@@ -1,4 +1,5 @@
 using Boxal.Util;
+using MoreMountains.Feedbacks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -29,6 +30,7 @@ namespace Boxal.Game
 
         private Renderer rend;
         private MaterialPropertyBlock mpb;
+        private MMF_Player feelPlayer;
 
         //참조
         private Rigidbody rb;
@@ -53,7 +55,7 @@ namespace Boxal.Game
             rb = GetComponent<Rigidbody>();
             rend = originalObject.GetComponent<Renderer>();
             mpb = new MaterialPropertyBlock();
-
+            feelPlayer = GetComponent<MMF_Player>();
         }
         private void Start()
         {
@@ -85,8 +87,9 @@ namespace Boxal.Game
             //대미지 처리
             currentHp -= dmg;
             //Fx (오브젝트 색, 숫자 표시)
-            UpdateColor();
             UpdateHpText();
+            feelPlayer?.PlayFeedbacks();
+            UpdateColor(dmg);
         }
 
         private void ResetBox()
@@ -97,9 +100,10 @@ namespace Boxal.Game
             UpdateColor();
         }
 
-        private void UpdateColor()
+        //막타대미지 고려해야됨 (처형처리 비슷하게)
+        private void UpdateColor(long dmg = 0)
         {
-            float t = (float)currentHp / MaxHp;
+            float t = (float)currentHp / (MaxHp - dmg);
             currentColor = Color.Lerp(targetColor, startColor, t);
 
             //mpb 사용
