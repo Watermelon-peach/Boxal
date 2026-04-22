@@ -1,5 +1,6 @@
 using Boxal.Util;
 using MoreMountains.Feedbacks;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -18,6 +19,7 @@ namespace Boxal.Game
         [Header("파괴 연출")]
         public GameObject originalObject;
         public GameObject demolished;
+        [SerializeField] private float despawnDelay = 2f;
 
         [Header("*밸런싱용 임시 직렬화")]
         [SerializeField] private long maxHp = 1;
@@ -49,6 +51,9 @@ namespace Boxal.Game
         }
 
         public bool IsDead { get; private set; }
+
+        public Transform[] Transforms { get; private set; }
+        public Rigidbody[] Rigidbodies { get; private set; }
         #endregion
 
         #region Unity Event Methods
@@ -60,10 +65,13 @@ namespace Boxal.Game
             rend = originalObject.GetComponent<Renderer>();
             mpb = new MaterialPropertyBlock();
             feelPlayer = GetComponent<MMF_Player>();
+
+            Transforms = GetComponentsInChildren<Transform>(true);
+            Rigidbodies = GetComponentsInChildren<Rigidbody>(true);
         }
         private void Start()
         {
-            ResetBox();
+            //ResetBox();
         }
 
 
@@ -76,6 +84,11 @@ namespace Boxal.Game
                 TakeDamage(tempDmg);
             }
         }
+
+        private void OnEnable()
+        {
+            ResetBox();
+        }
         #endregion
 
         #region Custom Methods
@@ -85,7 +98,7 @@ namespace Boxal.Game
 
             if(currentHp - dmg <= 0)
             {
-                BreakBox();
+                StartCoroutine(BreakBox());
                 return;
             }
             //대미지 처리
@@ -103,6 +116,9 @@ namespace Boxal.Game
 
         private void ResetBox()
         {
+            IsDead = false;
+            hpTmp.enabled = true;
+            originalCollider.enabled = true;
             currentHp = maxHp;
             currentColor = startColor;
             UpdateHpText();
@@ -127,7 +143,7 @@ namespace Boxal.Game
             hpTmp.text = NumberUtil.FormatNumber(currentHp);
         }
 
-        private void BreakBox()
+        private IEnumerator BreakBox()
         {
             IsDead = true;
 
@@ -141,6 +157,8 @@ namespace Boxal.Game
             demolished.SetActive(true);
             //TODO: 오브젝트 풀 Return 구현시 대체
             //gameObject.SetActive(false);
+            yield return new WaitForSeconds(despawnDelay);
+            SpawnManager.Instance.Despawn(this);
         }
         #endregion
     }
