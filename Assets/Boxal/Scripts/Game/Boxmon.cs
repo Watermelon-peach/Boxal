@@ -9,8 +9,11 @@ namespace Boxal.Game
     public class Boxmon : MonoBehaviour
     {
         #region Variables
+        [Header("대미지처리")]
         public TextMeshPro hpTmp;
         public Material boxMat;
+        [SerializeField] private MMF_Player ftPlayer;
+        [SerializeField] private Transform ftTransform;
 
         [Header("파괴 연출")]
         public GameObject originalObject;
@@ -31,6 +34,7 @@ namespace Boxal.Game
         private Renderer rend;
         private MaterialPropertyBlock mpb;
         private MMF_Player feelPlayer;
+
 
         //참조
         private Rigidbody rb;
@@ -87,6 +91,11 @@ namespace Boxal.Game
             //대미지 처리
             currentHp -= dmg;
             //Fx (오브젝트 색, 숫자 표시)
+            MMF_FloatingText floatingTextFeedback = ftPlayer.GetFeedbackOfType<MMF_FloatingText>();
+            floatingTextFeedback.Value = $"-{NumberUtil.FormatNumber(dmg)}";
+            
+            ftPlayer?.PlayFeedbacks(ftTransform.position);
+
             UpdateHpText();
             feelPlayer?.PlayFeedbacks();
             UpdateColor(dmg);

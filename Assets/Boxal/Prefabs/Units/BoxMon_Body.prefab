@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3651843063181085111}
   - component: {fileID: 336998287924861041}
   m_Layer: 0
-  m_Name: BoxMon00
+  m_Name: BoxMon_Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
