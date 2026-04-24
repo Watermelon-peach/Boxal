@@ -22,7 +22,7 @@ namespace Boxal.Game
         [SerializeField] private float despawnDelay = 2f;
 
         [Header("*밸런싱용 임시 직렬화")]
-        [SerializeField] private long maxHp = 1;
+        private long maxHp = 1;
         
         //TODO: 테스트 인풋 대미지
         [SerializeField] private long tempDmg = 99;
@@ -37,7 +37,7 @@ namespace Boxal.Game
         private MaterialPropertyBlock mpb;
         private MMF_Player feelPlayer;
 
-
+        
         //참조
         private Rigidbody rb;
         private Collider originalCollider;
@@ -54,6 +54,9 @@ namespace Boxal.Game
 
         public Transform[] Transforms { get; private set; }
         public Rigidbody[] Rigidbodies { get; private set; }
+
+        //라운드관리
+        //public bool IsClearPoint { get; set; }
         #endregion
 
         #region Unity Event Methods
@@ -85,13 +88,11 @@ namespace Boxal.Game
             }
         }
 
-        private void OnEnable()
-        {
-            ResetBox();
-        }
         #endregion
 
         #region Custom Methods
+        
+
         public void TakeDamage(long dmg)
         {
             if (IsDead) return;
@@ -114,12 +115,13 @@ namespace Boxal.Game
             UpdateColor(dmg);
         }
 
-        private void ResetBox()
+        public void ResetBox()
         {
+            currentHp = MaxHp;
+
             IsDead = false;
             hpTmp.enabled = true;
             originalCollider.enabled = true;
-            currentHp = maxHp;
             currentColor = startColor;
             UpdateHpText();
             UpdateColor();

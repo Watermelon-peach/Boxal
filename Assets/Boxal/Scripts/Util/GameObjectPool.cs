@@ -1,3 +1,4 @@
+using Boxal.Game;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -40,6 +41,7 @@ namespace Boxal.Util
             }
 
             GameObject obj = pool.Pop();
+
             obj.SetActive(true);
             return obj;
         }
