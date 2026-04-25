@@ -74,7 +74,7 @@ namespace Boxal.Game
         }
         private void ShowRoundCount()
         {
-            UiManager.Instance.roundUi.text = "Round" + roundCount.ToString();
+            UiManager.Instance.roundUi.text = "Round " + roundCount.ToString();
         }
 
         #endregion
