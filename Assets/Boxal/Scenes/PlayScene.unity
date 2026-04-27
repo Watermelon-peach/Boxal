@@ -745,13 +745,13 @@ GameObject:
   - component: {fileID: 745212333}
   - component: {fileID: 745212332}
   - component: {fileID: 745212331}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!64 &745212331
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -981,6 +981,8 @@ GameObject:
   - component: {fileID: 1081482745}
   - component: {fileID: 1081482744}
   - component: {fileID: 1081482748}
+  - component: {fileID: 1081482749}
+  - component: {fileID: 1081482750}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1075,7 +1077,7 @@ Transform:
   m_GameObject: {fileID: 1081482743}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 2.85, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -1094,11 +1096,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7b2ff712586ce446b5332dd4ffad638, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Orbit
-  player: {fileID: 3065745033420930880, guid: 42ac4cdedf5222a4b9e7b8a2679fe209, type: 3}
+  player: {fileID: 1081482747}
   weapons: []
-  radius: 1
+  radius: 0.5
   rotationSpeed: 100
   weaponPrefab: {fileID: 2501726855368966398, guid: 42ac4cdedf5222a4b9e7b8a2679fe209, type: 3}
+  maxWeaponCount: 6
+--- !u!54 &1081482749
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1081482743}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 122
+  m_CollisionDetection: 0
+--- !u!114 &1081482750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1081482743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6aea6f182b5cd348be3664271dd8c40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Boxal.Game.Player
+  maxLife: 5
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  groundCheckDistance: 1.1
 --- !u!1 &1137066483
 GameObject:
   m_ObjectHideFlags: 0
@@ -1258,7 +1305,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Round Start
+  m_text: Game Start
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1657,6 +1704,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1631818319}
   m_CullTransparentMesh: 1
+--- !u!1 &1719327751
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1719327752}
+  - component: {fileID: 1719327753}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1719327752
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1719327751}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1789583920}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1719327753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1719327751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9975188ec207931478d8c184634aa47c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  isGameOver: 0
 --- !u!1 &1736907452
 GameObject:
   m_ObjectHideFlags: 0
@@ -1807,7 +1899,7 @@ GameObject:
   - component: {fileID: 1737742750}
   - component: {fileID: 1737742749}
   m_Layer: 5
-  m_Name: Round start
+  m_Name: GameStart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1877,9 +1969,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 587467973}
-        m_TargetAssemblyTypeName: Boxal.Game.RoundManager, Assembly-CSharp
-        m_MethodName: StartRound
+      - m_Target: {fileID: 1719327753}
+        m_TargetAssemblyTypeName: Boxal.Game.GameManager, Assembly-CSharp
+        m_MethodName: OnGameStart
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1959,6 +2051,7 @@ Transform:
   - {fileID: 987764791}
   - {fileID: 587467972}
   - {fileID: 622253274}
+  - {fileID: 1719327752}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1842144431
@@ -4787,7 +4880,7 @@ Transform:
   m_GameObject: {fileID: 2315609860294435482}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.6666667, z: -6.666667}
+  m_LocalPosition: {x: 0, y: 1.85, z: -8.18}
   m_LocalScale: {x: 0.6666667, y: 0.6666667, z: 0.6666667}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3027265265024793885}
   - component: {fileID: 2416971149584378279}
   - component: {fileID: 4712146974633833233}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Boxmon00
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,7 +56,6 @@ MonoBehaviour:
   originalObject: {fileID: 4051232089281931163}
   demolished: {fileID: 9209015165927247453}
   despawnDelay: 2
-  tempDmg: 111
   targetColor: {r: 1, g: 0.27660277, b: 0.23113209, a: 1}
 --- !u!65 &3027265265024793885
 BoxCollider:

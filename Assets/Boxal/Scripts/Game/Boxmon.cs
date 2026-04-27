@@ -25,7 +25,7 @@ namespace Boxal.Game
         private long maxHp = 1;
         
         //TODO: 테스트 인풋 대미지
-        [SerializeField] private long tempDmg = 99;
+        //[SerializeField] private long tempDmg = 99;
         private long currentHp = 0;
 
 
@@ -41,6 +41,7 @@ namespace Boxal.Game
         //참조
         private Rigidbody rb;
         private Collider originalCollider;
+        private int weaponLayer;
         #endregion
 
         #region Properties
@@ -71,6 +72,7 @@ namespace Boxal.Game
 
             Transforms = GetComponentsInChildren<Transform>(true);
             Rigidbodies = GetComponentsInChildren<Rigidbody>(true);
+            weaponLayer = LayerMask.NameToLayer("Weapon");
         }
         private void Start()
         {
@@ -81,22 +83,26 @@ namespace Boxal.Game
         private void Update()
         {
             //TODO: 테스트 인풋
-            if (Keyboard.current.anyKey.wasPressedThisFrame)
+            /*if (Keyboard.current.anyKey.wasPressedThisFrame)
             {
                 Debug.Log("키 입력");
                 TakeDamage(tempDmg);
-            }
+            }*/
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.layer != weaponLayer) return;
+            TakeDamage(Player.Instance.Atk);
         }
 
         #endregion
 
         #region Custom Methods
-        
 
         public void TakeDamage(long dmg)
         {
             if (IsDead) return;
-
             if(currentHp - dmg <= 0)
             {
                 StartCoroutine(BreakBox());
@@ -157,8 +163,10 @@ namespace Boxal.Game
             hpTmp.enabled = false;
             originalObject.SetActive(false);
             demolished.SetActive(true);
-            //TODO: 오브젝트 풀 Return 구현시 대체
-            //gameObject.SetActive(false);
+
+            feelPlayer.StopFeedbacks();
+            feelPlayer.RestoreInitialValues();
+
             yield return new WaitForSeconds(despawnDelay);
             SpawnManager.Instance.Despawn(this);
         }

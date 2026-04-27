@@ -5,17 +5,23 @@ namespace Boxal.Game
 {
     public class Orbit : MonoBehaviour
     {
+        #region Variables
         public Transform player;
         public List<Transform> weapons;
         public float radius = 2f;
         public float rotationSpeed = 100f;
         public GameObject weaponPrefab;
-        float currentRotation;
+        private float currentRotation;
+        [SerializeField] private int maxWeaponCount = 6;
+        private int currentWeaponCount = 0;
+        #endregion
 
+        #region Unity Event Methods
         private void Start()
         {
-            AddWeapon();
+            //AddWeapon();
         }
+
         private void Update()
         {
             currentRotation += rotationSpeed * Time.deltaTime;
@@ -34,19 +40,26 @@ namespace Boxal.Game
                 ) * radius;
 
                 Transform weapon = weapons[i];
-                weapon.position = player.position + offset;
+                weapon.localPosition = offset;
 
-                // 엉덩이가 플레이어 향하게
-                Vector3 dir = player.position - weapon.position;
+                Vector3 dir = -weapon.localPosition;
                 weapon.up = -dir.normalized;
             }
         }
+        #endregion
 
+        #region Cutom Methods
         public void AddWeapon()
         {
-            Transform weapon = Instantiate(weaponPrefab).transform;
+            if (currentWeaponCount >= maxWeaponCount)
+                return;
+
+            currentWeaponCount++;
+            Transform weapon = Instantiate(weaponPrefab, player).transform;
             weapons.Add(weapon);
         }
+        #endregion
+
     }
 
 }
