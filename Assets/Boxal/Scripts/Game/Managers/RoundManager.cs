@@ -32,6 +32,12 @@ namespace Boxal.Game
             float timer = 0f;
             while (timer <= roundDuration)
             {
+                if (GameManager.Instance.IsGameOver)
+                {
+
+                    yield break;
+                }
+
                 timer += Time.deltaTime;
                 float t = curve.Evaluate(timer / roundDuration);
                 UiManager.Instance.timerUi.text = ((int)(roundDuration - timer + 1)).ToString();

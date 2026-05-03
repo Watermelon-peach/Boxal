@@ -12,14 +12,15 @@ namespace Boxal.Game
         public float rotationSpeed = 100f;
         public GameObject weaponPrefab;
         private float currentRotation;
-        [SerializeField] private int maxWeaponCount = 6;
-        private int currentWeaponCount = 0;
+        private int maxWeaponCount = 6;
+        //private int currentWeaponCount = 0;
         #endregion
 
         #region Unity Event Methods
         private void Start()
         {
             //AddWeapon();
+            maxWeaponCount = Player.Instance.maxLife;
         }
 
         private void Update()
@@ -49,14 +50,36 @@ namespace Boxal.Game
         #endregion
 
         #region Cutom Methods
-        public void AddWeapon()
+        public void AddWeapon(int amount)
         {
-            if (currentWeaponCount >= maxWeaponCount)
+            if (weapons.Count >= maxWeaponCount)
                 return;
 
-            currentWeaponCount++;
-            Transform weapon = Instantiate(weaponPrefab, player).transform;
-            weapons.Add(weapon);
+            for (int i = 0; i < amount; i++)
+            {
+                Transform weapon = Instantiate(weaponPrefab, player).transform;
+                weapons.Add(weapon);
+                if (weapons.Count == maxWeaponCount)
+                    break;
+            }
+            
+        }
+
+        public void RemoveWeapon(int amount)
+        {
+            if (weapons.Count == 0)
+                return;
+
+            for (int i = 0; i < amount; i++)
+            {
+                if (weapons.Count == 0)
+                    break;
+
+                Transform weapon = weapons[weapons.Count - 1];
+
+                weapons.RemoveAt(weapons.Count - 1);
+                Destroy(weapon.gameObject);
+            }
         }
         #endregion
 

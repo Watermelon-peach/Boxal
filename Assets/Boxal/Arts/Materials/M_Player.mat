@@ -242,13 +242,13 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 0.24377, g: 0.27709416, b: 0.6226415, a: 1}
-    - _EmissionColor: {r: 5.3403134, g: 0.7305147, b: 0.7305147, a: 1}
+    - _Color: {r: 0.2216981, g: 1, b: 0.5184673, a: 1}
+    - _EmissionColor: {r: 5.3403144, g: 1.1367835, b: 0.75491345, a: 1}
     - _HalftoneColor: {r: 0, g: 0, b: 0, a: 1}
     - _HatchingColor: {r: 0, g: 0, b: 0, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 0}
     - _RimColor: {r: 1, g: 1, b: 1, a: 1}
-    - _RimShadowColor: {r: 0.7898941, g: 0.32156858, b: 0.99215686, a: 0}
+    - _RimShadowColor: {r: 0.99215686, g: 0.95002556, b: 0.32156858, a: 0}
     - _ShadowColor: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []

@@ -7,6 +7,7 @@ namespace Boxal.Util
     public class GameObjectPool
     {
         #region Variables
+
         private Stack<GameObject> pool = new Stack<GameObject>();
 
         private GameObject prefab;
@@ -29,6 +30,7 @@ namespace Boxal.Util
         {
             GameObject obj = Object.Instantiate(prefab, parent);
             obj.SetActive(false);
+
             pool.Push(obj);
             return obj;
         }

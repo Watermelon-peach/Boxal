@@ -1,4 +1,5 @@
 using Boxal.Util;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Boxal.Game
@@ -6,13 +7,13 @@ namespace Boxal.Game
     public class SpawnManager : Singleton<SpawnManager>
     {
         #region Variables
+        public List<Boxmon> aliveBoxmons;
         public int currentEnemies = 0;
         [SerializeField] private GameObject boxmonPrefab;
 
-        [SerializeField] private Transform spawnpoint;
-        private float yOffset = 4f;
+        private float yOffset = 2f;
         private Transform lastSpawned;
-
+        private float initOffset = 20f;
 
         private GameObjectPool pool;
         private TransformSnapshot snapshot;
@@ -23,6 +24,7 @@ namespace Boxal.Game
         private void Start()
         {
             pool = new GameObjectPool(boxmonPrefab, 20, transform);
+            aliveBoxmons = new List<Boxmon>();
             snapshot = new TransformSnapshot();
             snapshot.SaveSnapshot(boxmonPrefab);
         }
@@ -40,12 +42,13 @@ namespace Boxal.Game
             boxmon.MaxHp = maxHp;
             boxmon.ResetBox();
 
+
             Vector3 spawnPos;
 
             if (lastSpawned == null)
             {
-                // 첫 스폰이면 기본 위치
-                spawnPos = spawnpoint.position;
+                // 첫 스폰이면 기본 위치 + 20f
+                spawnPos = Player.Instance.transform.position + Vector3.up * initOffset;
             }
             else
             {
@@ -55,6 +58,8 @@ namespace Boxal.Game
 
             obj.transform.position = spawnPos;
             lastSpawned = obj.transform;
+
+            aliveBoxmons.Add(boxmon);
         }
 
         public void Despawn(Boxmon boxmon)

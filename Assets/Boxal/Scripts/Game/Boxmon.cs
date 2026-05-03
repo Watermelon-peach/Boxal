@@ -3,7 +3,6 @@ using MoreMountains.Feedbacks;
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Boxal.Game
 {
@@ -37,9 +36,10 @@ namespace Boxal.Game
         private MaterialPropertyBlock mpb;
         private MMF_Player feelPlayer;
 
-        
+        private Coroutine blinkRoutine;
+        private float blinkDuration = 0.05f;
         //참조
-        private Rigidbody rb;
+        public Rigidbody rb;
         private Collider originalCollider;
         private int weaponLayer;
         #endregion
@@ -73,10 +73,6 @@ namespace Boxal.Game
             Transforms = GetComponentsInChildren<Transform>(true);
             Rigidbodies = GetComponentsInChildren<Rigidbody>(true);
             weaponLayer = LayerMask.NameToLayer("Weapon");
-        }
-        private void Start()
-        {
-            //ResetBox();
         }
 
 
@@ -114,11 +110,30 @@ namespace Boxal.Game
             MMF_FloatingText floatingTextFeedback = ftPlayer.GetFeedbackOfType<MMF_FloatingText>();
             floatingTextFeedback.Value = $"-{NumberUtil.FormatNumber(dmg)}";
             
+            if (blinkRoutine != null)
+                StopCoroutine(blinkRoutine);
+
+            blinkRoutine = StartCoroutine(Blink());
+
             ftPlayer?.PlayFeedbacks(ftTransform.position);
+
 
             UpdateHpText();
             feelPlayer?.PlayFeedbacks();
             UpdateColor(dmg);
+        }
+
+        private IEnumerator Blink()
+        {
+            rend.GetPropertyBlock(mpb);
+            mpb.SetFloat("_UseEmission", 1f);
+            rend.SetPropertyBlock(mpb);
+
+            yield return new WaitForSeconds(blinkDuration);
+
+            rend.GetPropertyBlock(mpb);
+            mpb.SetFloat("_UseEmission", 0f);
+            rend.SetPropertyBlock(mpb);
         }
 
         public void ResetBox()
@@ -154,6 +169,9 @@ namespace Boxal.Game
         private IEnumerator BreakBox()
         {
             IsDead = true;
+            //Debug.Log("rb 리스트 remove 시도: " + SpawnManager.Instance.aliveRbs.Contains(rb));
+            SpawnManager.Instance.aliveBoxmons.Remove(this);
+
 
             //파편화연출
             //1. rb끄기(Kinematic) 2. 콜라이더 끄기 3. Hp 패널 / original 끄기 4. 파편 키기
@@ -166,6 +184,8 @@ namespace Boxal.Game
 
             feelPlayer.StopFeedbacks();
             feelPlayer.RestoreInitialValues();
+
+
 
             yield return new WaitForSeconds(despawnDelay);
             SpawnManager.Instance.Despawn(this);
